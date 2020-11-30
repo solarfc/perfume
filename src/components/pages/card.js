@@ -2,27 +2,26 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
-import {setPerfumeInfo} from "../../reducers/card-reducers";
+import {setPerfumeId, setPerfumeInfo} from "../../reducers/card-reducers";
 
 class Card extends Component {
     componentDidMount() {
-        this.props.cardLoad({
-            "gender": "man",
-            "country": "France",
-            "brand": "Lalique",
-            "name": "Hommage a L'Homme Voyageur",
-            "description": "Парфюм для современных героев и рыцарей  -  Lalique Hommage a L'Homme Voyageur («Хомм Вояжер» от Лалик) стал новинкой 2014 года. Восточно-древесный аромат открывается свежими нотами бергамота и пряного кардамона. Центральные аккорды ветивера, пачули и папируса придают элегантность и утонченность композиции. Базовые ноты сладкой ванили, амбры и неподражаемого аромата дубового мха - шикарный и магический",
-            "sale": "70",
-            "availability": "true",
-            "id": 63189
-        })
+        this.props.perfumeId(this.props.match.params.id);
+        this.props.cardLoad(this.props.perfume.filter(item => item.id === 63189));
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        console.log('update');
     }
 
     render() {
-        console.log(this.props);
+        // console.log(this.props.card.perfume);
+        // const {gender, country, brand, name, description, sale, id} = this.props.card.perfume;
         return (
             <div className="card-description">
-                <h1>{this.props.card.description}</h1>
+                {/*<h1>{description}</h1>*/}
+                {/*<h1>{this.props.card.description}</h1>*/}
             </div>
         )
     }
@@ -30,7 +29,8 @@ class Card extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        card: state.cardReducer.perfume
+        card: state.cardReducer,
+        perfume: state.perfumeReducer.perfume
     };
 }
 
@@ -38,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         cardLoad: (perfume) => {
             dispatch(setPerfumeInfo(perfume))
+        },
+        perfumeId: (id) => {
+            dispatch(setPerfumeId(id));
         }
     }
 }

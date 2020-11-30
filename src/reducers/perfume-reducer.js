@@ -2,7 +2,7 @@ const PERFUME_LOADED = 'perfume/PERFUME_LOADED';
 
 const initialState = {
     perfume: [],
-    loading: false
+    loading: true
 };
 
 export const perfumeLoaded = (perfume) => {
@@ -15,7 +15,7 @@ export const perfumeLoaded = (perfume) => {
 const perfumeReducer = (state = initialState, action) => {
     switch (action.type) {
         case PERFUME_LOADED: {
-            return {...state, perfume: action.payload}
+            return {...state, perfume: action.payload, loading: false}
         }
         default:
             return state;
