@@ -6,8 +6,11 @@ import {setPerfumeId, setPerfumeInfo} from "../../reducers/card-reducers";
 
 class Card extends Component {
     componentDidMount() {
-        this.props.perfumeId(this.props.match.params.id);
-        this.props.cardLoad(this.props.perfume.filter(item => item.id === 63189));
+        const {id} = this.props.match.params;
+        if(id !== null) {
+            this.props.perfumeId(id);
+            this.props.cardLoad(this.props.perfume.filter(item => item.id === +id));
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -16,8 +19,8 @@ class Card extends Component {
     }
 
     render() {
-        // console.log(this.props.card.perfume);
-        // const {gender, country, brand, name, description, sale, id} = this.props.card.perfume;
+
+        // const {gender, country, brand, name, description, sale, id} = this.props.card.perfume[0];
         return (
             <div className="card-description">
                 {/*<h1>{description}</h1>*/}
@@ -37,6 +40,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         cardLoad: (perfume) => {
+            console.log(perfume);
             dispatch(setPerfumeInfo(perfume))
         },
         perfumeId: (id) => {
