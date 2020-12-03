@@ -3,7 +3,7 @@ const SET_PERFUME_ID = 'card/SET_PERFUME_ID';
 
 const initialState = {
     id: null,
-    perfume: null
+    perfume: null,
 };
 
 export const setPerfumeId = (id) => {

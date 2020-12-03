@@ -2,49 +2,55 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
-import {setPerfumeId, setPerfumeInfo} from "../../reducers/card-reducers";
+import {setPerfumeId} from "../../reducers/card-reducers";
+import Spinner from "../spinner";
+import {addPerfumeToCart} from "../../reducers/cart-reducers";
 
 class Card extends Component {
-    componentDidMount() {
-        const {id} = this.props.match.params;
-        if(id !== null) {
-            this.props.perfumeId(id);
-            this.props.cardLoad(this.props.perfume.filter(item => item.id === +id));
-        }
+
+    state = {
+        loading: true
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
-        console.log('update');
+    componentDidMount() {
+        const {match: {params: {id}}} = this.props;
+        this.props.setPerfumeId(id);
+        setTimeout(() => {
+            this.setState({loading: false})
+        }, 500);
     }
 
     render() {
+        const [perfumeInfo] = this.props.perfume.filter(item => item.id === +this.props.card.id);
+        const {addPerfumeToCart} = this.props;
 
-        // const {gender, country, brand, name, description, sale, id} = this.props.card.perfume[0];
+        if(perfumeInfo === undefined || this.state.loading === true) {
+            return <Spinner />
+        }
+
         return (
-            <div className="card-description">
-                {/*<h1>{description}</h1>*/}
-                {/*<h1>{this.props.card.description}</h1>*/}
-            </div>
+            <>
+                <h3>{perfumeInfo.name}</h3>
+                <button onClick={() => addPerfumeToCart(perfumeInfo)}>Заказать</button>
+            </>
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        card: state.cardReducer,
-        perfume: state.perfumeReducer.perfume
-    };
+        perfume: state.homePage.perfume,
+        card: state.cardPage
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        cardLoad: (perfume) => {
-            console.log(perfume);
-            dispatch(setPerfumeInfo(perfume))
+        setPerfumeId: (id) => {
+            dispatch(setPerfumeId(id))
         },
-        perfumeId: (id) => {
-            dispatch(setPerfumeId(id));
+        addPerfumeToCart: (perfume) => {
+            dispatch(addPerfumeToCart(perfume));
         }
     }
 }
