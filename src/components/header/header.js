@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import cart from "../../shopping-cart.png"
 
 const Header = ({quantity}) => {
-    console.log(quantity);
+    // console.log(quantity);
     return (
         <header className="header">
             <div className="container">

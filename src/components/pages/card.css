@@ -1,0 +1,74 @@
+.card {
+    padding: 20px 0;
+    font-family: Georgia, sans-serif;
+}
+
+.card__content {
+    box-sizing: border-box;
+    width: 90%;
+    padding: 20px;
+    border: 1px solid #f2f2f2;
+    background: #fff;
+    border-radius: 20px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.card__content h4 {
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.card__content h3 {
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 10px auto;
+}
+
+.card__content p {
+    font-size: 16px;
+
+}
+
+.card__content p span {
+    font-weight: bold;
+}
+
+.card__content p.art {
+    margin: 10px auto;
+}
+
+.card__content img {
+    width: 50%;
+}
+
+.card__content p.gender {
+    margin: 10px auto;
+}
+
+.card__content p.sale {
+    margin: 10px auto;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    background: #ff0000;
+    border-radius: 2px;
+    width: 102px;
+    padding: 1px 0;
+}
+
+.card__content button {
+    display: block;
+    font-family: Georgia, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #fff;
+    box-sizing: border-box;
+    width: 30%;
+    padding: 10px 0;
+    border: 1px solid #fff;
+    background-color: rgba(19, 19, 19, 0.412);
+    cursor: pointer;
+    margin: 10px auto 0;
+}

@@ -1,0 +1,34 @@
+.cart {
+    padding: 20px 0;
+}
+
+.cart__content {
+    box-sizing: border-box;
+    padding: 0 15px;
+}
+
+.cart__content-block {
+    box-sizing: border-box;
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart__content-block__info {
+    display: flex;
+}
+
+.cart__content-block__change {
+    display: flex;
+}
+
+.cart__content-block__change p {
+    margin-right: 5px;
+}
+
+.cart__content-block__info p {
+    margin-right: 10px;
+}

@@ -1,23 +1,23 @@
 import React, {Component} from "react";
 import {Route, Switch} from "react-router-dom";
-import {Card, Cart, Home} from "../pages";
+import {Home} from "../pages";
 import {connect} from "react-redux";
 import {perfumeLoader} from "../../reducers/perfume-reducer";
-import {getPerfume} from "../../services/service";
 import Spinner from "../spinner";
-import {addPerfumeToCart} from "../../reducers/cart-reducers";
+import {addPerfumeToCartThunkCreator} from "../../reducers/cart-reducers";
+import CardContainer from "../pages/card";
+import CartContainer from "../pages/cart";
 
-const Main = ({perfume}) => {
-    console.log(perfume);
+const Main = ({perfume, addPerfumeToCartThunkCreator}) => {
 
     return (
         <main role="main">
             <Switch>
-                <Route exact path="/" component={() => <Home perfume={perfume}/>}></Route>
-                <Route path="/woman-perfume" component={() => <Home perfume={perfume.filter(item => item.gender === "woman")}/>}></Route>
-                <Route path="/man-perfume" component={() => <Home perfume={perfume.filter(item => item.gender === "man")}/>}></Route>
-                <Route path="/cart" component={Cart}></Route>
-                <Route path="/card/:id?" component={Card}></Route>
+                <Route exact path="/" component={() => <Home perfume={perfume} addPerfumeToCart={addPerfumeToCartThunkCreator}/>}></Route>
+                <Route path="/woman-perfume" component={() => <Home perfume={perfume.filter(item => item.gender === "woman")} addPerfumeToCart={addPerfumeToCartThunkCreator}/>}></Route>
+                <Route path="/man-perfume" component={() => <Home perfume={perfume.filter(item => item.gender === "man")} addPerfumeToCart={addPerfumeToCartThunkCreator}/>}></Route>
+                <Route path="/cart" component={CartContainer}></Route>
+                <Route path="/card/:id?" component={CardContainer}></Route>
             </Switch>
         </main>
     )
@@ -30,14 +30,14 @@ class MainContainer extends Component {
     }
 
     render() {
-        const {perfume, loading} = this.props;
+        const {perfume, loading, addPerfumeToCartThunkCreator} = this.props;
 
         if(loading) {
           return <Spinner />
         }
 
         return (
-            <Main perfume={perfume}/>
+            <Main perfume={perfume} addPerfumeToCartThunkCreator={addPerfumeToCartThunkCreator}/>
         )
     }
 }
@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {perfumeLoader})(MainContainer)
+export default connect(mapStateToProps, {perfumeLoader, addPerfumeToCartThunkCreator})(MainContainer)
 
 // class Main extends Component {
 //
