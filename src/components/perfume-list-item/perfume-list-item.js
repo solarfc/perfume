@@ -3,10 +3,10 @@ import React from "react";
 import {NavLink} from "react-router-dom";
 
 const PerfumeListItem = ({perfume, addPerfumeToCart}) => {
-    const {gender, country, brand, name, description, sale, availability, id} = perfume;
+    const {brand, name, sale, id, price} = perfume;
     const addsPerfumeToCart = (perfume) => {
         addPerfumeToCart(perfume);
-        alert('Товар добавлен в корзину');
+        alert('Товар добавлен в корзину')
     }
 
     return (
@@ -17,11 +17,11 @@ const PerfumeListItem = ({perfume, addPerfumeToCart}) => {
             <h5>{name}</h5>
             <p>sale -{sale}%</p>
             <div className="price">
-                <span className="old-price">1240 грн</span>
-                <span className="new-price">485 грн</span>
+                <span className="old-price">{Math.ceil(price * 100 / 30)} грн</span>
+                <span className="new-price">{price} грн</span>
             </div>
             <NavLink to={`/card/${id}`}>Подробнее</NavLink>
-            <button onClick={() => addsPerfumeToCart(perfume)}>Заказать</button>
+            <button onClick={() => {addsPerfumeToCart(perfume);}}>Заказать</button>
         </>
     )
 };
