@@ -3,13 +3,17 @@ import React, {Component} from "react"
 import {connect} from "react-redux";
 import Spinner from "../spinner";
 import {NavLink} from "react-router-dom";
-import {removePerfumeFromCartTC} from "../../reducers/cart-reducers";
+import {
+    addPerfumeToCartThunkCreator,
+    removeAllPerfumeFromCartTC,
+    removePerfumeFromCartTC
+} from "../../reducers/cart-reducers";
 
-const Cart = ({cart, removePerfumeFromCartTC}) => {
+const Cart = ({cart, onIncrease, onDecrease, onDelete}) => {
 
-    const removePerfumeFromCart = (id) => {
-        removePerfumeFromCartTC(id);
-    }
+    // const removePerfumeFromCart = (id) => {
+    //     removePerfumeFromCartTC(id);
+    // }
 
     if(cart.length === 0) {
         return (
@@ -39,9 +43,9 @@ const Cart = ({cart, removePerfumeFromCartTC}) => {
                                     <p>{item.count}</p>
                                 </div>
                                 <div className="cart__content-block__change">
-                                    <p>+1</p>
-                                    <p>-1</p>
-                                    <button onClick={() => removePerfumeFromCart(item.id)}>del</button>
+                                    <button onClick={() => onIncrease(item)}>+1</button>
+                                    <button onClick={() => onDecrease(item)}>-1</button>
+                                    <button onClick={() => onDelete(item)}>del</button>
                                 </div>
                             </div>
                         )
@@ -65,14 +69,14 @@ class CartContainer extends Component {
     }
 
     render() {
-        const {cart, removePerfumeFromCartTC} = this.props;
+        const {cart, addPerfumeToCartThunkCreator, removePerfumeFromCartTC, removeAllPerfumeFromCartTC} = this.props;
 
         if(this.state.loading) {
             return <Spinner />
         }
 
         return (
-            <Cart cart={cart} removePerfumeFromCartTC={removePerfumeFromCartTC}></Cart>
+            <Cart cart={cart} onIncrease={addPerfumeToCartThunkCreator} onDecrease={removePerfumeFromCartTC} onDelete={removeAllPerfumeFromCartTC}></Cart>
         )
     }
 }
@@ -83,4 +87,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, {removePerfumeFromCartTC})(CartContainer)
+export default connect(mapStateToProps, {addPerfumeToCartThunkCreator, removePerfumeFromCartTC, removeAllPerfumeFromCartTC})(CartContainer)
