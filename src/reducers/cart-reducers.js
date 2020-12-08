@@ -5,6 +5,24 @@ const initialState = {
     cart: []
 };
 
+const updateCartItems = (cartItems, item, idx) => {
+    if(idx === -1) {
+        return [...cartItems, item]
+    }
+
+    return [...cartItems.slice(0, idx), item, ...cartItems.slice(idx + 1)]
+}
+
+const updateCartItem = (perfume, item = {}) => {
+    const {count = 0, totalPrice = 0} = item;
+
+    return {
+        ...perfume,
+        count: count + 1,
+        totalPrice: totalPrice + perfume.price
+    }
+}
+
 const addPerfumeToCart = (perfume) => {
     return {
         type: ADD_PERFUME_TO_CART,
@@ -30,32 +48,12 @@ export const removePerfumeFromCartTC = (id) => async (dispatch) => {
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_PERFUME_TO_CART:
-            let itemIndex = state.cart.findIndex(({id}) => id === action.payload.id);
-            let item = state.cart[itemIndex];
+            const perfume = action.payload;
+            const itemIndex = state.cart.findIndex(({id}) => id === perfume.id);
+            const item = state.cart[itemIndex];
+            const newItem = updateCartItem(perfume, item);
 
-            let newItem;
-
-            if(item) {
-                newItem = {
-                    ...item,
-                    count: item.count + 1,
-                    totalPrice: item.price * (item.count + 1)
-                }
-            } else {
-                newItem = {...action.payload, count: 1, totalPrice: action.payload.price}
-            }
-
-            if(itemIndex < 0) {
-                return {...state, cart: [...state.cart, newItem]}
-            } else {
-                return {...state, cart: [...state.cart.slice(0, itemIndex), newItem, ...state.cart.slice(itemIndex + 1)]}
-            }
-        case REMOVE_PERFUME_FROM_CART:
-            // debugger;
-            // itemIndex = state.cart.findIndex(({id}) => id === action.payload);
-            // item = state.cart[itemIndex];
-            // return {...state, cart: [...state.cart.slice(0, itemIndex), ...state.cart.slice(itemIndex + 1)]};
-
+            return {...state, cart: updateCartItems(state.cart, newItem, itemIndex)}
         default:
             return state;
     }
